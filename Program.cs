@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
+using NLog;
 
 namespace DreamHome
 {
@@ -15,10 +16,12 @@ namespace DreamHome
 
         static void Main(string[] args)
         {
+            ILogger log = LogManager.LoadConfiguration("nlog.config").GetCurrentClassLogger();
+
             var repositories = ProcessRepositories().Result;
             foreach (var repo in repositories)
             {
-                System.Console.WriteLine($"Repository: {repo.Name}, Watchers: {repo.Watchers}, Last push: {repo.LastPush}");
+                log.Info($"Repository: {repo.Name}, Watchers: {repo.Watchers}, Last push: {repo.LastPush}");
             }
         }
 
